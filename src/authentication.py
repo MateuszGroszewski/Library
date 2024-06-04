@@ -1,4 +1,7 @@
-class Login:
+import sqlite3
+
+
+class Authentication:
 
     @staticmethod
     def startScreen():
@@ -8,9 +11,9 @@ class Login:
 
         match choice:
             case 1:
-                print(Login.loginProcedure())
+                print(Authentication.loginProcedure())
             case 2:
-                Login.registerProcedure()
+                Authentication.registerProcedure("Anna", "Smith", "anna.smith@email.com", "Anna98", "123")
 
     @staticmethod
     def loginProcedure() -> True | False:
@@ -24,4 +27,9 @@ class Login:
 
     @staticmethod
     def registerProcedure(name: str, lastName: str, email: str, username: str, password: str):
-        raise NotImplemented
+        newUser_name: str = name
+        newUser_lastName: str = lastName
+        newUser_email: str = email
+        newUser_username: str = username
+        newUser_password: str = password
+        print(newUser_name, newUser_lastName, newUser_email, newUser_username, newUser_password)
