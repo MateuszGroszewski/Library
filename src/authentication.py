@@ -1,32 +1,26 @@
+from src.inputToInt import convertInputToInt
 import sqlite3
 
 
 class Authentication:
 
     @staticmethod
-    def startScreen():
-        print("1. Login")
-        print("2. Register")
-        choice = int(input("Enter your choice: "))
-
-        match choice:
-            case 1:
-                print(Authentication.loginProcedure())
-            case 2:
-                Authentication.registerProcedure("Anna", "Smith", "anna.smith@email.com", "Anna98", "123")
-
-    @staticmethod
-    def loginProcedure() -> True | False:
-        print("Login procedure")
-        username = input("Enter your username: ").rstrip()
-        password = input("Enter your password: ").rstrip()
-        if username == password:
-            return True
+    def login(userName: str, password: str) -> bool:
+        loginSucceed: bool = False
+        userDBConnection = sqlite3.connect("userDB.db")
+        userDBCursor = userDBConnection.cursor()
+        userDBCursor.execute(f"SELECT USERNAME, PASSWORD FROM users WHERE USERNAME = '{userName}'")
+        loginUserName, loginPassword = userDBCursor.fetchone()
+        if userName == loginUserName and password == loginPassword:
+            loginSucceed = True
         else:
-            return False
+            loginSucceed = False
+        userDBConnection.commit()
+        userDBConnection.close()
+        return loginSucceed
 
     @staticmethod
-    def registerProcedure(name: str, lastName: str, email: str, username: str, password: str):
+    def register(name: str, lastName: str, email: str, username: str, password: str):
         newUser_name: str = name
         newUser_lastName: str = lastName
         newUser_email: str = email
