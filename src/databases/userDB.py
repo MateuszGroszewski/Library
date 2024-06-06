@@ -35,3 +35,15 @@ class UserDB:
     @staticmethod
     def deleteUser(userID: int):
         raise NotImplemented
+
+    @staticmethod
+    def findUserLoginData(userName: str):
+        userDBConnection = sqlite3.connect("userDB.db")
+        userDBCursor = userDBConnection.cursor()
+        userDBCursor.execute(f"SELECT USERNAME, PASSWORD FROM users WHERE USERNAME = '{userName}'")
+        loginUserName, loginPassword = userDBCursor.fetchone()
+        print(f'name: {loginUserName} pass: {loginPassword}')
+        userDBConnection.commit()
+        userDBConnection.close()
+
+
